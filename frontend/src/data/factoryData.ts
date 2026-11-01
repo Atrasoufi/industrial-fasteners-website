@@ -7,12 +7,18 @@ import {
   ProductItem,
 } from '../types';
 
+import factoryHero from '../assets/images/hero_fastener_factory_1793518894479.jpg';
+import hexBoltsNuts from '../assets/images/fasteners_hex_bolts_nuts_1793518896581.jpg';
+import screwsAssortment from '../assets/images/fasteners_screws_assortment_1793518898359.jpg';
+import customBlueprint from '../assets/images/custom_cnc_fastener_blueprint_1793518899539.jpg';
+import qualityPlating from '../assets/images/factory_quality_plating_line_1793518899934.jpg';
+
 export const IMAGES = {
-  factoryHero: '/src/assets/images/hero_fastener_factory_1793518894479.jpg',
-  hexBoltsNuts: '/src/assets/images/fasteners_hex_bolts_nuts_1793518896581.jpg',
-  screwsAssortment: '/src/assets/images/fasteners_screws_assortment_1793518898359.jpg',
-  customBlueprint: '/src/assets/images/custom_cnc_fastener_blueprint_1793518899539.jpg',
-  qualityPlating: '/src/assets/images/factory_quality_plating_line_1793518899934.jpg',
+  factoryHero,
+  hexBoltsNuts,
+  screwsAssortment,
+  customBlueprint,
+  qualityPlating,
 } as const;
 
 export const PRODUCT_CATEGORIES: CategoryInfo[] = [
