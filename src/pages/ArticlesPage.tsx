@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { INDUSTRIAL_ARTICLES } from '../data/factoryData';
+import { COMPANY_INFO, INDUSTRIAL_ARTICLES } from '../data/factoryData';
 import { PageId } from '../types';
 import { IndustrialImage } from '../components/IndustrialImage';
 
@@ -16,7 +16,9 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
   onNavigate,
 }) => {
   const activeArticle = selectedArticleId
-    ? INDUSTRIAL_ARTICLES.find((a) => a.id === selectedArticleId) || null
+    ? INDUSTRIAL_ARTICLES.find(
+        (a) => a.id === selectedArticleId || a.slug === selectedArticleId
+      ) || null
     : null;
 
   if (activeArticle) {
@@ -37,11 +39,11 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
 
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
           <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-            <div className="aspect-[16/9] bg-[#0B192C]">
+            <div className="aspect-[16/9] bg-slate-50 border-b border-slate-100 flex items-center justify-center p-4">
               <IndustrialImage
                 src={activeArticle.imageUrl}
                 alt={activeArticle.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
 
@@ -76,10 +78,10 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
               <div className="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50 p-5 rounded-md">
                 <div>
                   <p className="text-sm font-bold text-[#0B192C]">
-                    نیاز به مشاوره فنی یا تولید سفارشی اتصالات دارید؟
+                    سفارش مستقیم از {COMPANY_INFO.brandName}
                   </p>
                   <p className="text-xs text-slate-600 mt-1">
-                    نقشه یا مشخصات فنی خود را برای بررسی مستقیم کارشناسان تولید ارسال نمایید.
+                    تولید انواع پیچ و مهره از سایز ۲/۲۰ تا ۱۰ میلی‌متر در اشکال استاندارد و سفارشی.
                   </p>
                 </div>
                 <button
@@ -99,20 +101,20 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
 
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
-      <section className="bg-[#0B192C] text-white py-12 lg:py-16 border-b border-slate-800">
+      <section className="bg-[#0B192C] text-white border-b border-slate-800 blueprint-grid-dark py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl space-y-3">
-            <div className="text-xs text-[#E5B85C] font-medium">
-              <span>دانشنامه و مقالات صنعتی</span>
+            <div className="inline-flex items-center gap-2 text-xs text-[#E5B85C] font-bold bg-[#132843] border border-amber-500/30 px-3 py-1 rounded-full">
+              <span>مقالات تخصصی {COMPANY_INFO.brandName}</span>
               <span aria-hidden="true"> · </span>
-              <span>مهندسی تولید و تامین اتصالات</span>
+              <span>دانش فنی اتصالات</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-              مقالات تخصصی پیچ، مهره و فرآیندهای ساخت
+              مقالات صنعتی پیچ، مهره و اتصالات سفارشی
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              مطالب کاربردی ویژه مدیران تدارکات صنعتی، مهندسان طراح و واحدهای کنترل کیفیت درباره
-              سفارش‌گذاری، رزوه‌زنی، سخت‌کاری و آبکاری اتصالات.
+              بررسی تخصصی کاربرد پیچ‌های استوانه، الکتریکی، خودکار، آچاری شش‌گوش، انواع مهره و
+              پیچ‌های سفارشی در صنایع مختلف کشور.
             </p>
           </div>
         </div>
@@ -128,12 +130,12 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
               <div>
                 <div
                   onClick={() => onSelectArticle(article.id)}
-                  className="aspect-[4/3] bg-[#0B192C] overflow-hidden cursor-pointer"
+                  className="aspect-[4/3] bg-slate-50 border-b border-slate-100 overflow-hidden cursor-pointer flex items-center justify-center p-3 group"
                 >
                   <IndustrialImage
                     src={article.imageUrl}
                     alt={article.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
                 <div className="p-6 space-y-3">

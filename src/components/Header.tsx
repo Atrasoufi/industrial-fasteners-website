@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { COMPANY_INFO } from '../data/factoryData';
 import { PageId } from '../types';
 
 interface HeaderProps {
@@ -10,20 +11,20 @@ interface HeaderProps {
 const PRIMARY_NAV_ITEMS: { id: PageId; label: string }[] = [
   { id: 'home', label: 'صفحه اصلی' },
   { id: 'products', label: 'کاتالوگ محصولات' },
-  { id: 'custom', label: 'تولید سفارشی' },
+  { id: 'custom', label: 'پیچ خاص و سفارشی' },
   { id: 'about', label: 'درباره کارخانه' },
   { id: 'contact', label: 'تماس با ما' },
 ];
 
 const MOBILE_ALL_PAGES: { id: PageId; label: string }[] = [
   { id: 'home', label: 'صفحه اصلی' },
-  { id: 'products', label: 'کاتالوگ محصولات' },
-  { id: 'product-detail', label: 'نمونه جزئیات محصول' },
-  { id: 'custom', label: 'تولید پیچ سفارشی' },
-  { id: 'about', label: 'درباره کارخانه' },
+  { id: 'products', label: 'کاتالوگ محصولات (۳۷ محصول)' },
+  { id: 'product-detail', label: 'مشخصات فنی محصول' },
+  { id: 'custom', label: 'تولید پیچ خاص و سفارشی' },
+  { id: 'about', label: 'درباره صنایع پیچ سازان آراز یزد' },
   { id: 'gallery', label: 'گالری کارخانه' },
   { id: 'articles', label: 'مقالات صنعتی' },
-  { id: 'contact', label: 'تماس با ما' },
+  { id: 'contact', label: 'تماس با دفتر تهران و کارخانه یزد' },
 ];
 
 export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
@@ -35,21 +36,22 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0B192C] text-white border-b border-slate-800">
+    <header className="sticky top-0 z-40 bg-[#0B192C] text-white border-b border-slate-800 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Single text element wordmark */}
+        {/* Zone 1: Brand Title */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault();
             handleNavClick('home');
           }}
-          className="text-lg sm:text-xl font-extrabold tracking-tight text-white whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#B48327]"
+          className="flex items-center gap-2 text-base sm:text-lg lg:text-xl font-extrabold tracking-tight text-white whitespace-nowrap shrink-0 hover:text-[#E5B85C] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E5B85C]"
         >
-          صنعت‌بست ایرانیان
+          <span className="w-2.5 h-2.5 rounded-full bg-[#E5B85C] shadow-[0_0_8px_#E5B85C]" />
+          <span>{COMPANY_INFO.brandName}</span>
         </a>
 
-        {/* Zone 2: 5 concise single-line text navigation links */}
+        {/* Zone 2: Primary Navigation Links */}
         <nav
           aria-label="منوی اصلی"
           className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300"
@@ -70,8 +72,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                 }}
                 className={`py-1 transition-colors duration-150 whitespace-nowrap shrink-0 border-b-2 ${
                   isActive
-                    ? 'text-white border-[#B48327]'
-                    : 'border-transparent hover:text-white hover:border-slate-500'
+                    ? 'text-[#E5B85C] border-[#E5B85C] font-bold'
+                    : 'border-transparent text-slate-300 hover:text-white hover:border-slate-500'
                 }`}
               >
                 {item.label}
@@ -80,12 +82,12 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           })}
         </nav>
 
-        {/* Zone 3: 1 primary CTA action (+ mobile menu toggle on small screens) */}
+        {/* Zone 3: Primary CTA Action */}
         <div className="flex items-center gap-3 shrink-0">
           <button
             type="button"
             onClick={() => handleNavClick('quote')}
-            className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48327]"
+            className="px-4 py-2 text-xs sm:text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors duration-150 shadow-md whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E5B85C]"
           >
             استعلام قیمت
           </button>
@@ -95,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? 'بستن منو' : 'باز کردن منو'}
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -104,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0F2138] border-t border-slate-800 px-4 pt-3 pb-5">
+        <div className="lg:hidden bg-[#07111E] border-t border-slate-800 px-4 pt-3 pb-5 shadow-2xl">
           <nav aria-label="منوی موبایل" className="grid grid-cols-1 gap-1">
             {MOBILE_ALL_PAGES.map((item) => {
               const isActive = currentPage === item.id;
@@ -118,8 +120,8 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
                   }}
                   className={`px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-[#0B192C] text-[#E5B85C]'
-                      : 'text-slate-200 hover:bg-[#0B192C]/60 hover:text-white'
+                      ? 'bg-[#0B192C] text-[#E5B85C] font-bold border border-amber-500/30'
+                      : 'text-slate-300 hover:bg-[#0B192C] hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -131,9 +133,9 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
             <button
               type="button"
               onClick={() => handleNavClick('quote')}
-              className="w-full py-2.5 px-4 text-sm font-semibold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors cursor-pointer"
+              className="w-full py-2.5 px-4 text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors cursor-pointer shadow-md"
             >
-              ثبت استعلام قیمت و ارسال نقشه
+              ثبت استعلام قیمت و سفارش تولید
             </button>
           </div>
         </div>

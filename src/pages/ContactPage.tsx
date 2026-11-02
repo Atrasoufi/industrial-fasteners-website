@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { COMPANY_INFO } from '../data/factoryData';
 import { PageId } from '../types';
 
 interface ContactPageProps {
@@ -10,7 +11,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [phone, setPhone] = useState('');
-  const [department, setDepartment] = useState('واحد فروش صنعتی و سفارشات');
+  const [department, setDepartment] = useState('دفتر فروش تهران');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
@@ -27,18 +28,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
-      <section className="bg-[#0B192C] text-white py-12 lg:py-16 border-b border-slate-800">
+      <section className="bg-[#0B192C] text-white border-b border-slate-800 blueprint-grid-dark py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl space-y-3">
-            <div className="text-xs text-[#E5B85C] font-medium">
-              <span>ارتباط با کارخانه و دفتر مرکزی</span>
+            <div className="inline-flex items-center gap-2 text-xs text-[#E5B85C] font-bold bg-[#132843] border border-amber-500/30 px-3 py-1 rounded-full">
+              <span>{COMPANY_INFO.brandName}</span>
               <span aria-hidden="true"> · </span>
-              <span>پاسخگویی مستقیم B2B</span>
+              <span>راه‌های ارتباطی رسمی</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white">تماس با ما</h1>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
+              تماس با دفتر فروش تهران و کارخانه یزد
+            </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              جهت هماهنگی بازدید صنعتی از خط تولید، پیگیری سفارشات در حال ساخت و ارتباط مستقیم با
-              واحد فروش و مهندسی کارخانه از راه‌های ارتباطی زیر استفاده فرمایید.
+              جهت ثبت سفارش تولید، استعلام قیمت محصولات کاتالوگ و هماهنگی ساخت پیچ‌های سفارشی با
+              دفتر فروش تهران یا کارخانه در شهرک صنعتی ولیعصر یزد در ارتباط باشید.
             </p>
           </div>
         </div>
@@ -46,47 +49,68 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Contact Channels */}
+          {/* Official Contact Channels */}
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white border border-slate-200 rounded-lg p-6 space-y-5">
-              <h2 className="text-lg font-bold text-[#0B192C]">اطلاعات تماس واحدها</h2>
+              <h2 className="text-lg font-bold text-[#0B192C]">
+                اطلاعات تماس رسمی {COMPANY_INFO.brandName}
+              </h2>
 
               <div className="divide-y divide-slate-200 text-sm">
                 <div className="pb-4 space-y-1">
-                  <p className="text-xs text-slate-500">نشانی کارخانه و خط تولید</p>
-                  <p className="font-semibold text-slate-900">
-                    شهرک صنعتی، بلوار صنعتگران، واحد تولیدی صنعت‌بست ایرانیان (محل درج نشانی دقیق کارخانه در قالب جنگو)
+                  <p className="text-xs text-slate-500">دفتر فروش تهران</p>
+                  <a
+                    href={COMPANY_INFO.tehranPhoneHref}
+                    className="inline-block text-base font-bold text-[#0B192C] hover:text-[#B48327] transition-colors tabular-nums"
+                  >
+                    {COMPANY_INFO.tehranPhone}
+                  </a>
+                </div>
+
+                <div className="py-4 space-y-1">
+                  <p className="text-xs text-slate-500">تلفن کارخانه</p>
+                  <a
+                    href={COMPANY_INFO.factoryPhoneHref}
+                    className="inline-block text-base font-bold text-[#0B192C] hover:text-[#B48327] transition-colors tabular-nums"
+                  >
+                    {COMPANY_INFO.factoryPhone}
+                  </a>
+                </div>
+
+                <div className="py-4 space-y-1">
+                  <p className="text-xs text-slate-500">آدرس کارخانه</p>
+                  <p className="font-semibold text-slate-900 leading-relaxed">
+                    {COMPANY_INFO.factoryAddress}
                   </p>
                 </div>
 
                 <div className="py-4 space-y-1">
-                  <p className="text-xs text-slate-500">تلفن دفتر فروش و کارخانه</p>
-                  <p className="font-mono-tech font-semibold text-slate-900 text-right" dir="ltr">
-                    021 - 0000 0000
-                  </p>
-                </div>
-
-                <div className="py-4 space-y-1">
-                  <p className="text-xs text-slate-500">پست الکترونیک واحد فنی و استعلام</p>
-                  <p className="font-mono-tech font-semibold text-slate-900 text-right" dir="ltr">
-                    rfq@sanatbast-factory.ir
+                  <p className="text-xs text-slate-500">کد پستی</p>
+                  <p className="font-semibold text-slate-900 tabular-nums">
+                    {COMPANY_INFO.postalCode}
                   </p>
                 </div>
 
                 <div className="pt-4 space-y-1">
-                  <p className="text-xs text-slate-500">ساعات کاری کارخانه و پذیرش بار</p>
-                  <p className="font-semibold text-slate-900">
-                    شنبه تا چهارشنبه ۸:۰۰ الی ۱۷:۰۰ · پنجشنبه‌ها ۸:۰۰ الی ۱۳:۰۰
-                  </p>
+                  <p className="text-xs text-slate-500">وب‌سایت رسمی</p>
+                  <a
+                    href={COMPANY_INFO.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block font-mono-tech font-semibold text-[#0B192C] hover:text-[#B48327] transition-colors"
+                    dir="ltr"
+                  >
+                    {COMPANY_INFO.websiteDisplay}
+                  </a>
                 </div>
               </div>
             </div>
 
             <div className="bg-[#0B192C] text-white rounded-lg p-6 space-y-3">
-              <h3 className="text-base font-bold">ارسال نقشه فنی و استعلام تولید</h3>
+              <h3 className="text-base font-bold">ارسال نقشه فنی و ثبت استعلام</h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                اگر قصد ارسال فایل نقشه مهندسی و دریافت پیش‌فاکتور تولید دارید، استفاده از فرم تخصصی
-                استعلام قیمت سریع‌ترین مسیر بررسی است.
+                برای استعلام قیمت ۳۷ محصول کاتالوگ یا ارسال نقشه پیچ‌های خاص و سفارشی (از سایز M2.20
+                تا M10) از فرم تخصصی استعلام قیمت استفاده فرمایید.
               </p>
               <div className="pt-1">
                 <button
@@ -94,7 +118,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   onClick={() => onNavigate('quote')}
                   className="px-4 py-2.5 text-xs font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors cursor-pointer"
                 >
-                  ورود به فرم استعلام قیمت و آپلود نقشه
+                  ورود به فرم استعلام قیمت و ارسال نقشه
                 </button>
               </div>
             </div>
@@ -109,8 +133,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   <h2 className="text-lg font-bold text-slate-900">پیام شما ثبت گردید</h2>
                 </div>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  درخواست شما به «{department}» ارجاع داده شد. همکاران ما در ساعات کاری با شما تماس
-                  خواهند گرفت.
+                  درخواست شما جهت بررسی به «{department}» در {COMPANY_INFO.brandName} ثبت شد. کارشناسان
+                  ما با شماره اعلام‌شده تماس خواهند گرفت.
                 </p>
                 <button
                   type="button"
@@ -133,9 +157,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 className="bg-white border border-slate-200 rounded-lg p-6 sm:p-8 space-y-5"
               >
                 <div className="border-b border-slate-200 pb-4">
-                  <h2 className="text-lg font-bold text-[#0B192C]">فرم ارتباط مستقیم با واحدهای کارخانه</h2>
+                  <h2 className="text-lg font-bold text-[#0B192C]">
+                    ارسال پیام به {COMPANY_INFO.brandName}
+                  </h2>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                    پیام یا درخواست هماهنگی جلسه حضوری و بازدید از کارخانه را ثبت فرمایید.
+                    پیام یا درخواست هماهنگی خود را با دفتر فروش تهران یا کارخانه یزد ثبت نمایید.
                   </p>
                 </div>
 
@@ -150,7 +176,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="contact-name" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                    <label
+                      htmlFor="contact-name"
+                      className="block text-sm font-semibold text-slate-800 mb-1.5"
+                    >
                       نام و نام خانوادگی <span className="text-red-600">*</span>
                     </label>
                     <input
@@ -162,8 +191,11 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-company" className="block text-sm font-semibold text-slate-800 mb-1.5">
-                      نام شرکت / سازمان
+                    <label
+                      htmlFor="contact-company"
+                      className="block text-sm font-semibold text-slate-800 mb-1.5"
+                    >
+                      نام شرکت / مجموعه
                     </label>
                     <input
                       id="contact-company"
@@ -177,7 +209,10 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="contact-phone" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                    <label
+                      htmlFor="contact-phone"
+                      className="block text-sm font-semibold text-slate-800 mb-1.5"
+                    >
                       شماره تماس <span className="text-red-600">*</span>
                     </label>
                     <input
@@ -186,13 +221,16 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       dir="ltr"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="09120000000"
+                      placeholder="0912... / 021..."
                       className="w-full px-3.5 py-2.5 text-sm font-mono-tech text-right bg-slate-50 border border-slate-300 rounded-md focus:bg-white focus:outline-none focus:border-[#0B192C]"
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-dept" className="block text-sm font-semibold text-slate-800 mb-1.5">
-                      واحد مقصد
+                    <label
+                      htmlFor="contact-dept"
+                      className="block text-sm font-semibold text-slate-800 mb-1.5"
+                    >
+                      بخش مورد نظر
                     </label>
                     <select
                       id="contact-dept"
@@ -200,16 +238,22 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                       onChange={(e) => setDepartment(e.target.value)}
                       className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md focus:bg-white focus:outline-none focus:border-[#0B192C]"
                     >
-                      <option value="واحد فروش صنعتی و سفارشات">واحد فروش صنعتی و سفارشات</option>
-                      <option value="واحد مهندسی و ساخت سفارشی">واحد مهندسی و ساخت سفارشی</option>
-                      <option value="واحد کنترل کیفیت">واحد کنترل کیفیت</option>
-                      <option value="هماهنگی بازدید از کارخانه">هماهنگی بازدید از کارخانه</option>
+                      <option value="دفتر فروش تهران">دفتر فروش تهران</option>
+                      <option value="کارخانه یزد (شهرک صنعتی ولیعصر)">
+                        کارخانه یزد (شهرک صنعتی ولیعصر)
+                      </option>
+                      <option value="واحد مهندسی و پیچ‌های سفارشی">
+                        واحد مهندسی و پیچ‌های سفارشی
+                      </option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="contact-msg" className="block text-sm font-semibold text-slate-800 mb-1.5">
+                  <label
+                    htmlFor="contact-msg"
+                    className="block text-sm font-semibold text-slate-800 mb-1.5"
+                  >
                     متن پیام <span className="text-red-600">*</span>
                   </label>
                   <textarea
@@ -217,7 +261,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="شرح درخواست یا موضوع هماهنگی..."
+                    placeholder="شرح درخواست یا استعلام..."
                     className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md focus:bg-white focus:outline-none focus:border-[#0B192C]"
                   />
                 </div>
@@ -227,7 +271,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                     type="submit"
                     className="px-6 py-3 text-sm font-bold text-white bg-[#0B192C] hover:bg-[#132843] rounded-md transition-colors cursor-pointer"
                   >
-                    ارسال پیام به کارخانه
+                    ارسال پیام
                   </button>
                 </div>
               </form>

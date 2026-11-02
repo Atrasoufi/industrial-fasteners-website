@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircle2, FileUp, Trash2 } from 'lucide-react';
-import { PRODUCT_CATEGORIES } from '../data/factoryData';
+import { COMPANY_INFO, PRODUCT_CATEGORIES, PRODUCTS_CATALOG } from '../data/factoryData';
 import { QuotePrefill } from '../types';
 
 interface QuoteFormProps {
@@ -88,16 +88,16 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
       return;
     }
     if (!formData.companyName.trim()) {
-      setErrorMessage('لطفاً نام شرکت یا واحد صنعتی سفارش‌دهنده را وارد نمایید.');
+      setErrorMessage('لطفاً نام شرکت یا مجموعه صنعتی سفارش‌دهنده را وارد نمایید.');
       return;
     }
     const cleanPhone = normalizeDigits(formData.phoneNumber);
     if (!/^(\+98|0)?\d{8,11}$/.test(cleanPhone)) {
-      setErrorMessage('لطفاً یک شماره تماس معتبر (تلفن همراه یا ثابت با پیش‌شماره) وارد نمایید.');
+      setErrorMessage('لطفاً شماره تماس معتبر (تلفن همراه یا ثابت با پیش‌شماره) وارد نمایید.');
       return;
     }
     if (!formData.dimensions.trim()) {
-      setErrorMessage('لطفاً ابعاد تقریبی یا مشخصات سایز قطعه را درج فرمایید.');
+      setErrorMessage('لطفاً سایز، قطر یا طول مورد نظر خود را درج فرمایید.');
       return;
     }
     if (!formData.requiredQuantity.trim()) {
@@ -105,7 +105,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
       return;
     }
 
-    const randomCode = `RFQ-${Math.floor(100000 + Math.random() * 900000)}`;
+    const randomCode = `ARZ-${Math.floor(100000 + Math.random() * 900000)}`;
     setSubmittedCode(randomCode);
   };
 
@@ -132,11 +132,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
           <CheckCircle2 className="w-7 h-7 text-emerald-700 shrink-0 mt-0.5" />
           <div className="space-y-3 flex-1">
             <h3 className="text-lg font-bold text-slate-900">
-              درخواست استعلام قیمت با موفقیت ثبت شد
+              درخواست استعلام قیمت در «{COMPANY_INFO.brandName}» ثبت شد
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed">
-              اطلاعات فنی سفارش شما برای بررسی امکان‌سنجی تولید، برآورد هزینه ابزار/تولید و زمان تحویل به
-              واحد مهندسی فروش کارخانه ارسال گردید. کارشناسان ما پس از بررسی با شماره اعلام‌شده تماس خواهند گرفت.
+              مشخصات سفارش شما جهت بررسی فنی و اعلام قیمت در اختیار واحد فروش قرار گرفت. همچنین برای
+              پیگیری فوری می‌توانید با دفتر فروش تهران ({COMPANY_INFO.tehranPhone}) یا کارخانه یزد (
+              {COMPANY_INFO.factoryPhone}) تماس حاصل فرمایید.
             </p>
             <div className="bg-slate-50 border border-slate-200 rounded-md p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               <div>
@@ -148,7 +149,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
                 <span className="font-semibold text-slate-800">{formData.companyName}</span>
               </div>
               <div>
-                <span className="text-slate-500">نوع محصول: </span>
+                <span className="text-slate-500">محصول / دسته: </span>
                 <span className="font-semibold text-slate-800">{formData.productType}</span>
               </div>
               <div>
@@ -189,10 +190,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
       {!compact && (
         <div className="border-b border-slate-200 pb-4">
           <h3 className="text-lg font-bold text-[#0B192C]">
-            فرم استعلام قیمت تولید و ارسال نقشه فنی
+            فرم استعلام قیمت تولید و ارسال نقشه — {COMPANY_INFO.brandName}
           </h3>
           <p className="text-sm text-slate-600 mt-1">
-            مشخصات اتصال مورد نیاز خود را وارد نمایید. برای قطعات خاص و سفارشی، پیوست نقشه فنی سرعت برآورد قیمت را افزایش می‌دهد.
+            امکان ثبت سفارش برای کلیه اقلام کاتالوگ و تولید پیچ‌های خاص و سفارشی از سایز M2.20 تا M10
+            مطابق نقشه مشتری فراهم است.
           </p>
         </div>
       )}
@@ -207,7 +209,6 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* 1. Full Name */}
         <div>
           <label htmlFor="rfq-fullName" className="block text-sm font-semibold text-slate-800 mb-1.5">
             نام و نام خانوادگی <span className="text-red-600">*</span>
@@ -219,15 +220,14 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             required
             value={formData.fullName}
             onChange={handleChange}
-            placeholder="مثال: مهندس علی رضایی"
+            placeholder="نام و نام خانوادگی سفارش‌دهنده"
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
 
-        {/* 2. Company Name */}
         <div>
           <label htmlFor="rfq-companyName" className="block text-sm font-semibold text-slate-800 mb-1.5">
-            نام شرکت / مجموعه صنعتی <span className="text-red-600">*</span>
+            نام شرکت / واحد صنعتی <span className="text-red-600">*</span>
           </label>
           <input
             id="rfq-companyName"
@@ -236,15 +236,14 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             required
             value={formData.companyName}
             onChange={handleChange}
-            placeholder="نام شرکت یا کارخانه سفارش‌دهنده"
+            placeholder="نام شرکت یا مجموعه تولیدی"
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
 
-        {/* 3. Phone Number */}
         <div>
           <label htmlFor="rfq-phoneNumber" className="block text-sm font-semibold text-slate-800 mb-1.5">
-            شماره تماس (مستقیم یا همراه) <span className="text-red-600">*</span>
+            شماره تماس <span className="text-red-600">*</span>
           </label>
           <input
             id="rfq-phoneNumber"
@@ -254,17 +253,16 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             required
             value={formData.phoneNumber}
             onChange={handleChange}
-            placeholder="09120000000 / 02100000000"
+            placeholder="0912... / 021... / 035..."
             className="w-full px-3.5 py-2.5 text-sm font-mono-tech text-right bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {/* 4. Product Type */}
         <div>
           <label htmlFor="rfq-productType" className="block text-sm font-semibold text-slate-800 mb-1.5">
-            نوع محصول
+            نوع محصول یا دسته کاتالوگ
           </label>
           <select
             id="rfq-productType"
@@ -273,19 +271,26 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             onChange={handleChange}
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           >
-            {PRODUCT_CATEGORIES.map((cat) => (
-              <option key={cat.slug} value={cat.title}>
-                {cat.title}
-              </option>
-            ))}
-            <option value="ترکیبی از پیچ، مهره و واشر">ترکیبی از پیچ، مهره و واشر</option>
+            <optgroup label="دسته‌بندی‌های اصلی">
+              {PRODUCT_CATEGORIES.map((cat) => (
+                <option key={cat.slug} value={cat.title}>
+                  {cat.title}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="انتخاب مستقیم از ۳۷ محصول کاتالوگ">
+              {PRODUCTS_CATALOG.map((prod) => (
+                <option key={prod.id} value={`${prod.name} (${prod.dinStandard})`}>
+                  {prod.catalogRowFa}. {prod.name} ({prod.dinStandard})
+                </option>
+              ))}
+            </optgroup>
           </select>
         </div>
 
-        {/* 5. Material */}
         <div>
           <label htmlFor="rfq-material" className="block text-sm font-semibold text-slate-800 mb-1.5">
-            جنس (متریال مورد نظر)
+            جنس / متریال درخواستی
           </label>
           <input
             id="rfq-material"
@@ -293,15 +298,14 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             type="text"
             value={formData.material}
             onChange={handleChange}
-            placeholder="مثال: فولاد کربنی، استیل، برنج..."
+            placeholder="مثال: آهنی، خشکه، استیل، آلومینیوم..."
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
 
-        {/* 6. Dimensions */}
         <div>
           <label htmlFor="rfq-dimensions" className="block text-sm font-semibold text-slate-800 mb-1.5">
-            ابعاد (قطر، طول، گام رزوه) <span className="text-red-600">*</span>
+            سایز / قطر و طول <span className="text-red-600">*</span>
           </label>
           <input
             id="rfq-dimensions"
@@ -310,12 +314,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             required
             value={formData.dimensions}
             onChange={handleChange}
-            placeholder="مثال: قطر و طول بر حسب میلی‌متر یا طبق نقشه"
+            placeholder="مثال: M2.20 تا M10 و طول مورد نظر"
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
 
-        {/* 7. Required Quantity */}
         <div>
           <label htmlFor="rfq-requiredQuantity" className="block text-sm font-semibold text-slate-800 mb-1.5">
             تعداد / تیراژ درخواستی <span className="text-red-600">*</span>
@@ -327,16 +330,15 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
             required
             value={formData.requiredQuantity}
             onChange={handleChange}
-            placeholder="مثال: ۵۰,۰۰۰ عدد / ماهانه"
+            placeholder="تیراژ مورد نیاز"
             className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
           />
         </div>
       </div>
 
-      {/* 8. Technical Notes */}
       <div>
         <label htmlFor="rfq-technicalNotes" className="block text-sm font-semibold text-slate-800 mb-1.5">
-          توضیحات فنی (نوع آبکاری، نیاز به سخت‌کاری، استاندارد مرجع یا شرایط بسته‌بندی)
+          توضیحات فنی (فرم گل‌پیچ، استاندارد DIN، پوشش آبکاری یا شرایط سفارش)
         </label>
         <textarea
           id="rfq-technicalNotes"
@@ -344,15 +346,14 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
           rows={3}
           value={formData.technicalNotes}
           onChange={handleChange}
-          placeholder="جزئیات پوشش سطحی، عملیات حرارتی، تلرانس‌های حساس یا نحوه تحویل مورد نظر خود را بنویسید..."
+          placeholder="مشخصات تکمیلی سفارش یا نقشه فنی خود را وارد نمایید..."
           className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-md text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0B192C]"
         />
       </div>
 
-      {/* 9. Technical Drawing Upload */}
       <div>
         <span className="block text-sm font-semibold text-slate-800 mb-1.5">
-          بارگذاری نقشه فنی یا تصویر نمونه قطعه (اختیاری)
+          بارگذاری نقشه فنی مشتری (ویژه پیچ‌های خاص و سفارشی M2.20 تا M10)
         </span>
         {!drawingFile ? (
           <label
@@ -363,7 +364,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
               <FileUp className="w-5 h-5 text-[#0B192C] shrink-0" />
               <div>
                 <p className="text-sm font-medium text-slate-800">
-                  انتخاب فایل نقشه مهندسی یا مستندات فنی
+                  انتخاب فایل نقشه مهندسی یا مستندات قطعه
                 </p>
                 <p className="text-xs text-slate-500 mt-0.5">
                   فرمت‌های قابل قبول: PDF, DWG, DXF, STEP, JPG, PNG (حداکثر ۲۰ مگابایت)
@@ -407,7 +408,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({ prefill, compact = false }
 
       <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-slate-100">
         <p className="text-xs text-slate-500">
-          تمامی نقشه‌ها و مستندات فنی ارسالی نزد واحد مهندسی کارخانه محرمانه تلقی می‌گردد.
+          دفتر فروش تهران: {COMPANY_INFO.tehranPhone} · تلفن کارخانه یزد: {COMPANY_INFO.factoryPhone}
         </p>
         <button
           type="submit"

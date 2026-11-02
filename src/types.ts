@@ -10,13 +10,12 @@ export type PageId =
   | 'contact';
 
 export type FastenerCategorySlug =
-  | 'cylindrical-screws'
+  | 'cylinder-screws'
   | 'electrical-screws'
   | 'self-tapping-screws'
-  | 'hex-bolts'
-  | 'nuts'
-  | 'washers'
-  | 'custom-screws';
+  | 'hexagon-bolts'
+  | 'custom-special-screws'
+  | 'nuts';
 
 export interface TechnicalDocument {
   id: string;
@@ -27,19 +26,22 @@ export interface TechnicalDocument {
 
 export interface ProductItem {
   id: string;
+  catalogRow: number;
+  catalogRowFa: string;
   slug: string;
   name: string;
   categorySlug: FastenerCategorySlug;
   categoryTitle: string;
-  shortSummary: string;
+  catalogCategoryShort: string;
+  dinStandard: string;
+  isFormalDinCode: boolean;
+  diameterOrSize: string;
+  lengthOrHeight: string;
+  explicitFeature?: string;
+  description: string;
+  categoryTechnicalNote: string;
   imageUrl: string;
   secondaryImageUrl: string;
-  material: string;
-  diameter: string;
-  length: string;
-  standard: string;
-  surfaceCoating: string;
-  technicalDescription: string;
   productionOperations: string[];
   documents: TechnicalDocument[];
 }
@@ -47,9 +49,11 @@ export interface ProductItem {
 export interface CategoryInfo {
   slug: FastenerCategorySlug;
   title: string;
-  subtitle: string;
+  englishTitle: string;
+  description: string;
   imageUrl: string;
-  representativeProductId: string;
+  productCount: number;
+  representativeProductSlug: string;
 }
 
 export interface CapabilityItem {
@@ -69,7 +73,13 @@ export interface ProcessStep {
 export interface GalleryItem {
   id: string;
   title: string;
-  department: 'خط تولید' | 'کنترل کیفیت و آبکاری' | 'محصولات صنعتی' | 'تولید سفارشی طبق نقشه';
+  department:
+    | 'خط تولید'
+    | 'کنترل کیفیت و آبکاری'
+    | 'محصولات کاتالوگ'
+    | 'تولید سفارشی طبق نقشه'
+    | 'محصولات الکتریکی'
+    | 'انواع مهره';
   caption: string;
   imageUrl: string;
   aspect: 'wide' | 'standard';

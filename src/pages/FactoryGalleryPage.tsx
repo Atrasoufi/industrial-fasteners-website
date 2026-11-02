@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
-import { GALLERY_ITEMS } from '../data/factoryData';
+import { COMPANY_INFO, GALLERY_ITEMS } from '../data/factoryData';
 import { GalleryItem, PageId } from '../types';
 import { IndustrialImage } from '../components/IndustrialImage';
 
@@ -8,18 +8,17 @@ interface FactoryGalleryPageProps {
   onNavigate: (page: PageId) => void;
 }
 
-const DEPARTMENTS: ('همه بخش‌ها' | GalleryItem['department'])[] = [
+const DEPARTMENTS = [
   'همه بخش‌ها',
-  'خط تولید',
+  'محصولات کاتالوگ',
   'کنترل کیفیت و آبکاری',
-  'محصولات صنعتی',
+  'محصولات الکتریکی',
   'تولید سفارشی طبق نقشه',
-];
+  'انواع مهره',
+] as const;
 
 export const FactoryGalleryPage: React.FC<FactoryGalleryPageProps> = ({ onNavigate }) => {
-  const [activeDept, setActiveDept] = useState<'همه بخش‌ها' | GalleryItem['department']>(
-    'همه بخش‌ها'
-  );
+  const [activeDept, setActiveDept] = useState<string>('همه بخش‌ها');
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
   const visibleItems =
@@ -29,27 +28,27 @@ export const FactoryGalleryPage: React.FC<FactoryGalleryPageProps> = ({ onNaviga
 
   return (
     <div className="bg-slate-50 min-h-screen pb-20">
-      {/* Header */}
-      <section className="bg-[#0B192C] text-white py-12 lg:py-16 border-b border-slate-800">
+      {/* Header - Rich Navy Blue Industrial */}
+      <section className="bg-[#0B192C] text-white border-b border-slate-800 blueprint-grid-dark py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="max-w-2xl space-y-3">
-            <div className="text-xs text-[#E5B85C] font-medium">
-              <span>گالری تصاویر کارخانه</span>
+            <div className="inline-flex items-center gap-2 text-xs text-[#E5B85C] font-bold bg-[#132843] border border-amber-500/30 px-3 py-1 rounded-full">
+              <span>گالری مستند {COMPANY_INFO.brandName}</span>
               <span aria-hidden="true"> · </span>
-              <span>محیط واقعی تولید و کنترل کیفیت</span>
+              <span>مساحت {COMPANY_INFO.factoryArea}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-              خطوط تولید، آزمایشگاه کیفیت و نمونه قطعات
+              گالری خطوط تولید، کنترل کیفیت و محصولات
             </h1>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              نمایی از سالن فرم‌دهی صنعتی، واحد کنترل کیفیت ابعادی، خط آبکاری و سخت‌کاری و نمونه‌های
-              تولیدی پیچ، مهره، واشر و اتصالات سفارشی.
+              نمایی از فرآیندهای پرس‌کاری، رزوه‌کاری، سخت‌کاری، آبکاری، کنترل کیفیت و نمونه محصولات
+              تولیدی از سایز ۲/۲۰ تا ۱۰ میلی‌متر.
             </p>
           </div>
           <button
             type="button"
             onClick={() => onNavigate('quote')}
-            className="px-5 py-3 text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors whitespace-nowrap self-start md:self-auto cursor-pointer"
+            className="px-5 py-3 text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors whitespace-nowrap self-start md:self-auto cursor-pointer shadow-lg"
           >
             ثبت استعلام قیمت تولید
           </button>
@@ -66,7 +65,7 @@ export const FactoryGalleryPage: React.FC<FactoryGalleryPageProps> = ({ onNaviga
               onClick={() => setActiveDept(dept)}
               className={`px-4 py-2 text-xs font-semibold rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeDept === dept
-                  ? 'bg-[#0B192C] text-white'
+                  ? 'bg-slate-900 text-white'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
@@ -80,19 +79,18 @@ export const FactoryGalleryPage: React.FC<FactoryGalleryPageProps> = ({ onNaviga
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {visibleItems.map((item) => {
-            const colSpan =
-              item.aspect === 'wide' ? 'md:col-span-6' : 'md:col-span-4';
+            const colSpan = item.aspect === 'wide' ? 'md:col-span-6' : 'md:col-span-4';
             return (
               <figure
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
-                className={`${colSpan} bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer hover:border-slate-400 transition-colors flex flex-col`}
+                className={`${colSpan} bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer hover:border-slate-400 transition-colors flex flex-col group`}
               >
-                <div className="aspect-[16/10] bg-[#0B192C] overflow-hidden">
+                <div className="aspect-[16/10] bg-slate-50 border-b border-slate-100 overflow-hidden flex items-center justify-center p-3">
                   <IndustrialImage
                     src={item.imageUrl}
                     alt={item.title}
-                    className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-200"
+                    className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-200"
                   />
                 </div>
                 <figcaption className="p-5 space-y-1.5 flex-1">
