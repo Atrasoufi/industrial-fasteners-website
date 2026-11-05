@@ -22,6 +22,7 @@ import { FactoryGalleryPage } from './pages/FactoryGalleryPage';
 import { ArticlesPage } from './pages/ArticlesPage';
 import { RequestQuotePage } from './pages/RequestQuotePage';
 import { ContactPage } from './pages/ContactPage';
+import { MessengerWidget } from './components/MessengerWidget';
 
 const VALID_PAGES: PageId[] = [
   'home',
@@ -153,7 +154,7 @@ export default function App() {
     } else if (currentPage === 'quote') {
       updateDocumentMeta(
         `استعلام قیمت و ثبت سفارش تولید | ${brand}`,
-        `فرم آنلاین استعلام قیمت پیچ و مهره و ارسال نقشه فنی پیچ‌های سفارشی در ${brand}. دفتر تهران: ${COMPANY_INFO.tehranPhone} - کارخانه یزد: ${COMPANY_INFO.factoryPhone}.`
+        `فرم آنلاین استعلام قیمت پیچ و مهره و ارسال نقشه فنی پیچ‌های سفارشی در ${brand}. دفتر تهران: ${COMPANY_INFO.tehranPhone} کارخانه یزد: ${COMPANY_INFO.factoryPhone}.`
       );
     } else if (currentPage === 'contact') {
       updateDocumentMeta(
@@ -288,6 +289,14 @@ export default function App() {
       <Footer
         onNavigate={(page) => navigateTo(page)}
         onSelectCategory={(slug) => handleFilterCatalog(slug as FastenerCategorySlug)}
+      />
+
+      {/* ویجت شناور پیام‌رسان‌ها (بله، ایتا، روبیکا و تماس مستقیم) */}
+      <MessengerWidget 
+        phone="02155422186" 
+        baleUsername="arazpich" 
+        eitaaUsername="arazpich" 
+        rubikaUsername="arazpich" 
       />
     </div>
   );

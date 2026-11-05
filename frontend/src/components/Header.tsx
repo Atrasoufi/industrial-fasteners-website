@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { COMPANY_INFO } from '../data/factoryData';
 import { PageId } from '../types';
 
@@ -82,16 +82,29 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
           })}
         </nav>
 
-        {/* Zone 3: Primary CTA Action */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Zone 3: Actions (دکمه کاتالوگ + دکمه استعلام قیمت) */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* دکمه دانلود کاتالوگ رسمی */}
+          <a
+            href="/catalog.pdf"
+            download="Araz-Pich-Catalog.pdf"
+            className="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-semibold text-slate-200 border border-slate-700 bg-slate-800/80 hover:bg-slate-700 hover:text-white rounded-md transition-colors shadow-sm whitespace-nowrap"
+          >
+            <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E5B85C]" />
+            <span className="hidden sm:inline">دانلود کاتالوگ</span>
+            <span className="sm:hidden">کاتالوگ</span>
+          </a>
+
+          {/* دکمه استعلام قیمت */}
           <button
             type="button"
             onClick={() => handleNavClick('quote')}
-            className="px-4 py-2 text-xs sm:text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors duration-150 shadow-md whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E5B85C]"
+            className="px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-white bg-[#B48327] hover:bg-[#9A6E1D] rounded-md transition-colors duration-150 shadow-md whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E5B85C]"
           >
             استعلام قیمت
           </button>
 
+          {/* دکمه منوی موبایل */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -129,7 +142,19 @@ export const Header: React.FC<HeaderProps> = ({ currentPage, onNavigate }) => {
               );
             })}
           </nav>
-          <div className="mt-4 pt-4 border-t border-slate-800">
+          
+          <div className="mt-4 pt-4 border-t border-slate-800 flex flex-col gap-2.5">
+            {/* دکمه دانلود کاتالوگ در منوی موبایل */}
+            <a
+              href="/catalog.pdf"
+              download="Araz-Pich-Catalog.pdf"
+              className="flex items-center justify-center gap-2 w-full py-2.5 px-4 text-sm font-semibold text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-md transition-colors text-center border border-slate-700"
+            >
+              <Download className="w-4 h-4 text-[#E5B85C]" />
+              <span>دانلود کاتالوگ رسمی شرکت</span>
+            </a>
+
+            {/* دکمه استعلام در منوی موبایل */}
             <button
               type="button"
               onClick={() => handleNavClick('quote')}
